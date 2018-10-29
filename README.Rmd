@@ -22,7 +22,7 @@ One prediction of climate change is that the intensity and rainfall rates of cyc
 
 The devastating effects of these events are demonstrated starkly via the use of satellite imagery both before and after they occur.  For example, this Washington Post [graphic](https://www.washingtonpost.com/graphics/2018/world/amp-stories/before-and-after-images-of-typhoon-yutu-destruction/) shows the destruction brought by Super Typhoon Yutu.
 
-Recently, efforts have been made to use such imagery as means for automated damage detection in storm-effected areas[^2][^3].  I propose using and buidling on these existing methodologies to assess storm-damaged areas and linking this information to estimates of localized monetary damages.  This would provide a novel approach for predicting the costs of future storms.
+Recently, efforts have been made to use such imagery as means for automated damage detection in storm-effected areas[^2][^3].  I propose using and building on these existing methodologies to assess storm-damaged areas and linking this information to estimates of localized monetary damages.  This would provide a novel approach for predicting the costs of future storms.
 
 ## Data Sources
 
