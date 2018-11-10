@@ -9,11 +9,18 @@ editor_options:
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  fig.path = 'figures/README-'
+  cache = T,
+  cache.path = "cache/",
+  collapse = T,
+  fig.path = "figures/README-"
   )
 load_tidy()
+library(ggthemes)
 library(hrbrthemes)
+library(rgdal)
+library(rgeos)
+library(sp)
+library(tigris)
 ```
 
 ## Proposal
@@ -42,7 +49,7 @@ Recently, efforts have been made to use such imagery as means for automated dama
 
 ```{r plot-one, echo = F, message = F, warning = F}
 dat <- read_csv(
-  'raw/hurricanes/hurdat2-atl-1851-2017-050118.txt',
+  '../tdi/raw/hurricanes/hurdat2-atl-1851-2017-050118.txt',
   col_names = F
   )
 
@@ -67,7 +74,7 @@ ggplot(dat) +
 
 ```{r plot-two, echo = F, message = F, warning = F}
 dat <- read_csv(
-  "raw/hurricanes/noaa-billions-time-series.csv",
+  "../tdi/raw/hurricanes/noaa-billions-time-series.csv",
   skip = 1
   )
 dat %<>% select(Year, starts_with("Tropical Cyclone"))
@@ -90,16 +97,38 @@ ggplot(dat, aes(x = year)) +
 ```
 
 ```{r plot-three, echo = F, message = F, warning = F}
-dat <- read_xlsx(
-  "raw/hurricanes/Census Tract Damage Assessment.xlsx"
-  )
-dat %<>% gather(type, value, -Key)
 
-ggplot(filter(dat, type != "Total")) +
-  geom_bar(
-    aes(x = Key, y = value, fill = type), stat = "identity"
+# fema assessment: harvey
+fem <- readOGR(
+  "~/Projects/tdi/raw/hurricanes/FEMA_Damage_Assessments_Harvey_Public.gdb",
+  "FEMA_Damage_Assessements_Public"
+)
+fem_cnt <- unique(fem@data$COUNTY)
+
+# counties
+cnt <- counties(state = c("TX"))
+cnt <- cnt[cnt$NAME %in% fem_cnt, ]
+
+# plot data
+pdat1 <- filter(fem@data, STATE == "TX")
+pdat2 <- fortify(cnt)
+
+# plot
+p <- ggplot() +
+  geom_polygon(
+    aes(long, lat, group = group),
+    data = pdat2,
+    fill = "white",
+    colour = "black",
+    size = 1
   ) +
-  scale_fill_discrete(
+  geom_point(
+    aes(LONGITUDE, LATITUDE, colour = DMG_LEVEL),
+    data = pdat1,
+    size = 1
+  ) +
+  scale_colour_discrete(
+    name = "Damage Level",
     labels = c(
       "Affected",
       "Destroyed",
@@ -107,17 +136,17 @@ ggplot(filter(dat, type != "Total")) +
       "Minimal damage"
     )
   ) +
-  theme_ipsum() +
+  coord_fixed(ratio = 1.45) +
+  theme_map() +
   theme(
-    axis.text.x = element_blank()
+    legend.position = c(0.7, 0.1)
   ) +
   labs(
-    title = "Tract-level damage assessment from Hurricane Harvey",
-    x = "Census tracts", y = "Counts",
-    caption = "Source: http://www.spgroupusa.com/"
+    title = "FEMA Damage Assessment of Buildings - Hurricane Harvey",
+    caption = "Source: FEMA, U.S. Census"
   )
+p
 ```
-
 
 [^1]:
 https://www.gfdl.noaa.gov/global-warming-and-hurricanes/
