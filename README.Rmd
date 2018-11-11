@@ -101,12 +101,13 @@ ggplot(dat, aes(x = year)) +
 # fema assessment: harvey
 fem <- readOGR(
   "~/Projects/tdi/raw/hurricanes/FEMA_Damage_Assessments_Harvey_Public.gdb",
-  "FEMA_Damage_Assessements_Public"
+  "FEMA_Damage_Assessements_Public",
+  verbose = F
 )
 fem_cnt <- unique(fem@data$COUNTY)
 
 # counties
-cnt <- counties(state = c("TX"))
+load("../tdi/data/tx_counties.Rda")
 cnt <- cnt[cnt$NAME %in% fem_cnt, ]
 
 # plot data
