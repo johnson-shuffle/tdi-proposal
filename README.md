@@ -26,12 +26,15 @@ shows the destruction brought by Super Typhoon Yutu. These pictures are
 indeed worth a thousand words, but they are also documenting potentially
 many thousands of dollars in damages.
 
-Recently, efforts have been made to use such imagery as means for
+Recently, efforts have been made to use satellite imagery as means for
 automated damage detection in storm-effected areas\[3\]\[4\]. I propose
 using and building on these existing methodologies to assess
 storm-damaged areas and linking this information to estimates of
-monetary damages. This would provide a novel approach for predicting the
-costs of future storms.
+monetary damages. This would provide a novel approach for quantifying
+the costs of disasters and perhaps predicting the costs of future
+events. Not only would this be useful in terms of disaster response, it
+would also serve as important information for any cost-benefit analysis
+of policy interventions seeking to address climate change.
 
 ## Data Sources
 
@@ -39,6 +42,13 @@ costs of future storms.
     Disasters](https://www.ncdc.noaa.gov/billions/time-series)
 
   - [Disaster Data Science Lab](https://www.ddslab.info/)
+    
+      - [Code
+        Base](https://github.com/DDS-Lab/disaster-image-processing) for
+        analysis in \[4\]
+      - Indicative of the scope of this proposal in terms of data size
+          - NOAA GeoTIFF imagery ~60GB
+          - DigitalGlobe GeoTIFF imagery ~3TB
 
   - [FEMA National Disaster
     Assessments](https://data.femadata.com/NationalDisasters/)
